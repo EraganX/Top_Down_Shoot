@@ -7,6 +7,7 @@ using UnityEngine.Animations;
 using UnityEngine.UIElements;
 using TMPro;
 using UnityEngine.UI;
+using static Unity.VisualScripting.Member;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -25,8 +26,9 @@ public class PlayerScript : MonoBehaviour
 
     Vector3 _mousePosition;
 
-
     [SerializeField] private RawImage[] image;
+    [SerializeField] private AudioClip _fireClip;
+    [SerializeField] private AudioSource source;
 
     
 
@@ -36,7 +38,6 @@ public class PlayerScript : MonoBehaviour
         _lastShotTime = Time.time;
         _health = 4;
         isDead = false;
-        this.gameObject.SetActive(true);
     }
 
     private void Update()
@@ -54,12 +55,10 @@ public class PlayerScript : MonoBehaviour
             image[0].enabled = false;
             isDead = true;
             Instantiate(DestroyFX,transform.position,Quaternion.identity);
-            this.gameObject.SetActive(false);
+            Destroy(this.gameObject);
         }
         
     }
-
-    
 
     private void ShowHealth()
     {
@@ -121,6 +120,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && Time.time>_lastShotTime+_fireRate)
         {
+            source.PlayOneShot(_fireClip);
             Instantiate(_bullet, transform.position, Quaternion.identity);
             _lastShotTime = Time.time;
         }

@@ -10,6 +10,7 @@ public class Score : MonoBehaviour
     [SerializeField] private Canvas _finalScore;
     [SerializeField] private TMP_Text _finalScoreText;
     PlayerScript _script;
+    [SerializeField] private AudioSource source;
 
     private void Start()
     {
@@ -20,12 +21,8 @@ public class Score : MonoBehaviour
         {
             UpdateScoreText();
         }
-        else
-        {
-            print("not working");
-        }
-
         _script = FindAnyObjectByType<PlayerScript>();
+        source.Pause();
     }
 
     public void AddScore(int addscore)
@@ -55,5 +52,6 @@ public class Score : MonoBehaviour
         yield return new WaitForSeconds(1f);
         _finalScore.enabled = true;
         _finalScoreText.text = "Final Score\n\n" + score.ToString("000");
+        source.Play();
     }
 }
