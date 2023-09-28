@@ -8,9 +8,11 @@ public class EnemyBulletScript : MonoBehaviour
     [SerializeField] private float _speed = 5.0f;
     [SerializeField] private GameObject _PlayerDestroyFX, _EnemyDestroyFX;
     private PlayerScript _PlayerScript;
+    Shake _shake;
 
     private void Start()
     {
+        _shake = FindAnyObjectByType<Shake>();
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         if (playerObject != null)
         {
@@ -27,7 +29,9 @@ public class EnemyBulletScript : MonoBehaviour
 
             if (Vector2.Distance(transform.position, _target) < 0.1f)
             {
+
                 Instantiate(_EnemyDestroyFX, transform.position, Quaternion.identity);
+                _shake.MissFire();
                 Destroy(this.gameObject);
             }
         }
@@ -44,6 +48,7 @@ public class EnemyBulletScript : MonoBehaviour
             _PlayerScript.HealthUpdate(-1);
             Instantiate(_PlayerDestroyFX, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
+            _shake.CameraShake();
         }
     }
 }

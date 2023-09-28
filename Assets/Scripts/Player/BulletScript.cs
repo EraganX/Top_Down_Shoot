@@ -8,11 +8,13 @@ public class BulletScript : MonoBehaviour
     [SerializeField] private float _speed = 15.0f;
     [SerializeField] GameObject _PlayerDestroyFX, _EnemyDestroyFX;
     Score scoreScript;
+    Shake _shake;
 
     private void Start()
     {
         _target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         scoreScript = FindObjectOfType<Score>();
+        _shake = FindAnyObjectByType<Shake>();
     }
     private void Update()
     {
@@ -21,6 +23,7 @@ public class BulletScript : MonoBehaviour
         if (Vector2.Distance(transform.position, _target) < 0.1f)
         {
             Instantiate(_PlayerDestroyFX, transform.position, Quaternion.identity);
+            _shake.MissFire();
             Destroy(this.gameObject);
 
         }
@@ -34,7 +37,7 @@ public class BulletScript : MonoBehaviour
             {
                 scoreScript.AddScore(1);
             }
-
+            _shake.CameraShake();
             Instantiate(_EnemyDestroyFX, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
             Destroy(collision.gameObject);

@@ -5,18 +5,20 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     private Transform player;
-    [SerializeField] private GameObject _bullet;
+    [SerializeField] private GameObject _bullet,_destroyFX;
     [SerializeField] private float _moveSpeed = 1.5f;
-    [SerializeField] private float _fireRate = 1f;
+    private float _fireRate = 3f;
     private float _lastShotTime;
     private PlayerScript _script;
     private Score _score;
+    private Shake _shake;
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Transform>(); // Add null check with "?"
         _script = player?.GetComponent<PlayerScript>();
         _score = FindAnyObjectByType<Score>();
+        _shake = FindAnyObjectByType<Shake>();
         _lastShotTime = Time.time;
     }
 
@@ -41,6 +43,7 @@ public class EnemyScript : MonoBehaviour
         {
             Instantiate(_bullet, transform.position, Quaternion.identity);
             _lastShotTime = Time.time;
+            _fireRate = Random.Range(1,5);
         }
     }
 
@@ -48,10 +51,10 @@ public class EnemyScript : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            print("Collide");
-         
-            _script?.HealthUpdate(-1); 
+            _script?.HealthUpdate(-1);
+            _shake.CameraShake();
             _score.AddScore(1);
+            Instantiate(_destroyFX,transform.position,Quaternion.identity);
             Destroy(this.gameObject);
         }
     }

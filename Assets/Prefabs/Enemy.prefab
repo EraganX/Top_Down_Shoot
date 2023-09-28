@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bullet: {fileID: 2542590897818486145, guid: 432a7f36e5fe1bb42bf6148ddab2e962, type: 3}
+  _destroyFX: {fileID: 5730328105361897268, guid: 59be8efc3c1beb54bbc4b2d7023790d0, type: 3}
   _moveSpeed: 1.5
-  _fireRate: 5
 --- !u!58 &2092108835769228227
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -37,7 +37,6 @@ public class PlayerScript : MonoBehaviour
         _health = 4;
         isDead = false;
         this.gameObject.SetActive(true);
-    
     }
 
     private void Update()
